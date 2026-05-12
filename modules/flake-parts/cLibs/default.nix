@@ -6,7 +6,7 @@ let
   dynamicAttrs = builtins.listToAttrs (
     map (dir: {
       name = builtins.replaceStrings [".nix"] [""] (builtins.baseNameOf dir);
-      value = import ././${dir} args;
+      value = builtins.trace "[nixos] Attaching Library: ${dir}" (import ././${dir} args);
     }) libraryDirs
   );
 in 

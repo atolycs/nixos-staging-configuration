@@ -4,15 +4,13 @@
   withSystem,
   lib,
   flakeRoot,
-...
+config,
+  cLibs,
+  ...
 }:
-let
-  cLibs = import "${flakeRoot}/lib";
-in 
 {
-  
   flake = {
-    nixosConfiguration = lib.genAttrs (cLibs.mapHosts) (
+    nixosConfigurations = lib.genAttrs (cLibs.mapHosts) (
       name:
       cLibs.mkHost {
       hostname = "nixos-${name}";
