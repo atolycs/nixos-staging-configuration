@@ -3,16 +3,13 @@
   config,
   inputs,
   withSystem,
-  ...
+flakeRoot,
+  ...,
 }:
-let
-  flakeRoot = ./.;
-in 
 
 {
   cLibs = import ./cLibs {
     inherit 
-      flakeRoot
-    ;
-  };
+    flakeRoot;
+  }
 }
