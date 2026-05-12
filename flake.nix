@@ -11,16 +11,23 @@
       };
       import-tree.url = "github:vic/import-tree";
   };
-  outputs = inputs@{flake-parts, withSystem, ...}: 
-    flake-parts.lib.mkFlake { inherit inputs; }:
+  outputs = inputs@{flake-parts, import-tree, self,...}: 
+    flake-parts.lib.mkFlake { inherit inputs; } (
     let
       flakeRoot = ./.;
-    in 
+    in
     {
         imports = [
           (import-tree [
             ./modules/flake-parts
           ])
-        ]
-    };
+        ];
+
+        perSystem = {config, self', inputs', pkgs, system, ...}: {
+          _module.args.pkgs = import inputs.nixpkgs {
+             inherit system;
+          };
+        };
+    }
+    );
 }
