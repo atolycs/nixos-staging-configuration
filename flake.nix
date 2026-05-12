@@ -9,5 +9,18 @@
         url = "github:nix-community/home-manager";
         inputs.nixpkgs.follows = "nixpkgs-unstable";
       };
-  }
+      import-tree.url = "github:vic/import-tree";
+  };
+  outputs = inputs@{flake-parts, withSystem, ...}: 
+    flake-parts.lib.mkFlake { inherit inputs; }:
+    let
+      flakeRoot = ./.;
+    in 
+    {
+        imports = [
+          (import-tree [
+            ./modules/flake-parts
+          ])
+        ]
+    };
 }
